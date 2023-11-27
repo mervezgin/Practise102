@@ -37,5 +37,21 @@ namespace Practise102.Api.Controllers
             users.Add(user);
             return Ok(users);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, User request)
+        {
+            var user = users.Find(x => x.Id == id);
+            if (user is null)
+            {
+                return NotFound("Sorry, but this user doesn't exist.");
+            }
+
+            user.Name = request.Name;
+            user.LastName = request.LastName;
+            user.Place = request.Place;
+
+            return Ok(users);
+        }
     }
 }
