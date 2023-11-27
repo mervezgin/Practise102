@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Practise102.Api.Models;
-using System.Runtime.CompilerServices;
+using Practise102.Api.Services.UserService;
 
 namespace Practise102.Api.Controllers
 {
@@ -9,67 +9,64 @@ namespace Practise102.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private static List<User> users = new List<User> 
-        {
-            new User{Id = 1, Name = "Merve", LastName = "Azgın", Place = "Ankara"},
-            new User{Id = 2, Name = "Yiğit", LastName = "Adaş", Place = "Ankara"}
-        };
+        private readonly IUserService _userService;
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
+        public UserController(IUserService userService)
         {
-            return Ok(users);
+            _userService = userService;
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<User>>> GetAllUsers()
+        {
+            return _userService.GetAllUsers();
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSingleUser(int id)
+        public async Task<ActionResult<User>> GetSingleUser(int id)
         {
-            var singleUser = users.Find(x => x.Id == id);
-
-            if(singleUser is null)
+            var result = _userService.GetSingleUser(id);
+            if (result is null)
             {
                 return NotFound("Sorry, but this user doesn't exist.");
             }
 
-            return Ok(singleUser);
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUser([FromBody]User user)
+        public async Task<ActionResult<List<User>>> AddUser([FromBody]User user)
         {
-            users.Add(user);
+            var result = _userService.AddUser(user);
+            if (result is null)
+            {
+                return NotFound("Sorry, but this user doesn't exist.");
+            }
 
-            return Ok(users);
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, User request)
+        public async Task<ActionResult<List<User>>> UpdateUser(int id, User request)
         {
-            var user = users.Find(x => x.Id == id);
-            if (user is null)
+            var result = _userService.UpdateUser(id, request);
+            if (result is null)
             {
                 return NotFound("Sorry, but this user doesn't exist.");
             }
 
-            user.Name = request.Name;
-            user.LastName = request.LastName;
-            user.Place = request.Place;
-
-            return Ok(users);
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<ActionResult<List<User>>> DeleteUser(int id)
         {
-            var user = users.Find(x => x.Id == id);
-            if (user is null)
+            var result = _userService.DeleteUser(id);
+            if (result is null)
             {
                 return NotFound("Sorry, but this user doesn't exist.");
             }
 
-            users.Remove(user);
-
-            return Ok(users);
+            return Ok(result);
         }
     }
 }
