@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Practise102.Mvc", "Practise102.Mvc\Practise102.Mvc.csproj", "{AE58F37B-6099-476C-9A19-43A888D6E37E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Practise102.Api", "Practise102.Api\Practise102.Api.csproj", "{C040F2A6-F1B0-4578-96B4-41F38A4FAD1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{AE58F37B-6099-476C-9A19-43A888D6E37E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE58F37B-6099-476C-9A19-43A888D6E37E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE58F37B-6099-476C-9A19-43A888D6E37E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C040F2A6-F1B0-4578-96B4-41F38A4FAD1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C040F2A6-F1B0-4578-96B4-41F38A4FAD1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C040F2A6-F1B0-4578-96B4-41F38A4FAD1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C040F2A6-F1B0-4578-96B4-41F38A4FAD1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
