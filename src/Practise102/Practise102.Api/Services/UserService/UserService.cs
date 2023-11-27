@@ -1,21 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Practise102.Data.Entities;
 
 namespace Practise102.Api.Services.UserService
 {
     public class UserService : IUserService
     {
-        private static List<User> users = new List<User>
+        private static List<UserEntity> users = new List<UserEntity>
         {
-            new User{Id = 1, Name = "Merve", LastName = "Azgın", Place = "Ankara"},
-            new User{Id = 2, Name = "Yiğit", LastName = "Adaş", Place = "Ankara"}
+            new UserEntity{Id = 1, Name = "Merve", LastName = "Azgın", Place = "Ankara"},
+            new UserEntity{Id = 2, Name = "Yiğit", LastName = "Adaş", Place = "Ankara"}
         };
 
-        public List<User>? GetAllUsers()
+        public List<UserEntity>? GetAllUsers()
         {
             return users;
         }
 
-        public User? GetSingleUser(int id)
+        public UserEntity? GetSingleUser(int id)
         {
             var singleUser = users.Find(x => x.Id == id);
 
@@ -27,14 +28,14 @@ namespace Practise102.Api.Services.UserService
             return singleUser;
         }
 
-        public List<User>? AddUser([FromBody] User user)
+        public List<UserEntity>? AddUser([FromBody] UserEntity user)
         {
             users.Add(user);
 
             return users;
         }
 
-        public List<User>? UpdateUser(int id, User request)
+        public List<UserEntity>? UpdateUser(int id, UserEntity request)
         {
             var user = users.Find(x => x.Id == id);
             if (user is null)
@@ -49,7 +50,7 @@ namespace Practise102.Api.Services.UserService
             return users;
         }
 
-        public List<User>? DeleteUser(int id)
+        public List<UserEntity>? DeleteUser(int id)
         {
             var user = users.Find(x => x.Id == id);
             if (user is null)

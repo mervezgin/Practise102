@@ -1,5 +1,6 @@
-global using Practise102.Api.Models;
-using Practise102.Api.Services.UserService;
+global using Practise102.Api.Services.UserService;
+global using Practise102.Data;
+global using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("Default");
+
+    options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
+    {
+        sqlOptions.MigrationsAssembly("Cms.Web.Api");
+    });
+});
 
 var app = builder.Build();
 
@@ -26,6 +36,12 @@ app.UseAuthorization();
 
 
 app.MapControllers();
+
+using(var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+    await dataContext.Database.EnsureCreatedAsync();
+}
 
 app.Run();
 
