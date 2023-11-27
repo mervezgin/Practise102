@@ -5,20 +5,29 @@ namespace Practise102.Api.Services.UserService
 {
     public class UserService : IUserService
     {
+        /*
         private static List<UserEntity> users = new List<UserEntity>
         {
             new UserEntity{Id = 1, Name = "Merve", LastName = "Azgın", Place = "Ankara"},
             new UserEntity{Id = 2, Name = "Yiğit", LastName = "Adaş", Place = "Ankara"}
         };
+        */
+        private readonly DataContext _dContext;
 
-        public List<UserEntity>? GetAllUsers()
+        public UserService(DataContext dContext)
         {
-            return users;
+            _dContext = dContext;
         }
 
-        public UserEntity? GetSingleUser(int id)
+        public async Task<List<UserEntity>?> GetAllUsersAsync()
         {
-            var singleUser = users.Find(x => x.Id == id);
+            var usersAll = await _dContext.Users.ToListAsync();
+            return usersAll;
+        }
+
+        public async Task<UserEntity?> GetSingleUser(int id)
+        {
+            var singleUser = await _dContext.Users.FindAsync(id);
 
             if (singleUser is null)
             {
@@ -28,16 +37,17 @@ namespace Practise102.Api.Services.UserService
             return singleUser;
         }
 
-        public List<UserEntity>? AddUser([FromBody] UserEntity user)
+        public async Task<List<UserEntity>?> AddUser([FromBody] UserEntity user)
         {
-            users.Add(user);
+            _dContext.Users.Add(user);
+            await _dContext.SaveChangesAsync();
 
-            return users;
+            return await _dContext.Users.ToListAsync();
         }
 
-        public List<UserEntity>? UpdateUser(int id, UserEntity request)
+        public async Task<List<UserEntity>?> UpdateUser(int id, UserEntity request)
         {
-            var user = users.Find(x => x.Id == id);
+            var user = await _dContext.Users.FindAsync(id);
             if (user is null)
             {
                 return null;
@@ -47,20 +57,23 @@ namespace Practise102.Api.Services.UserService
             user.LastName = request.LastName;
             user.Place = request.Place;
 
-            return users;
+            await _dContext.SaveChangesAsync();
+
+            return await _dContext.Users.ToListAsync();
         }
 
-        public List<UserEntity>? DeleteUser(int id)
+        public async Task<List<UserEntity>?> DeleteUser(int id)
         {
-            var user = users.Find(x => x.Id == id);
+            var user = await _dContext.Users.FindAsync(id);
             if (user is null)
             {
                 return null;
             }
 
-            users.Remove(user);
+            _dContext.Users.Remove(user);
+            await _dContext.SaveChangesAsync();
 
-            return users;
+            return await _dContext.Users.ToListAsync();
         }
     }
 }

@@ -17,7 +17,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 
     options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
     {
-        sqlOptions.MigrationsAssembly("Cms.Web.Api");
+        sqlOptions.MigrationsAssembly("Practise102.Api");
     });
 });
 

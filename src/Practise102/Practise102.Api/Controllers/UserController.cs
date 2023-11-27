@@ -18,16 +18,17 @@ namespace Practise102.Api.Controllers
             _userService = userService;
             _dataContext = dataContext;
         }
+
         [HttpGet]
         public async Task<ActionResult<List<UserEntity>>> GetAllUsers()
         {
-            return _userService.GetAllUsers();
+            return await _userService.GetAllUsersAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserEntity>> GetSingleUser(int id)
         {
-            var result = _userService.GetSingleUser(id);
+            var result = await _userService.GetSingleUser(id);
             if (result is null)
             {
                 return NotFound("Sorry, but this user doesn't exist.");
@@ -39,7 +40,7 @@ namespace Practise102.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<List<UserEntity>>> AddUser([FromBody]UserEntity user)
         {
-            var result = _userService.AddUser(user);
+            var result = await _userService.AddUser(user);
             if (result is null)
             {
                 return NotFound("Sorry, but this user doesn't exist.");
@@ -51,7 +52,7 @@ namespace Practise102.Api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<List<UserEntity>>> UpdateUser(int id, UserEntity request)
         {
-            var result = _userService.UpdateUser(id, request);
+            var result = await _userService.UpdateUser(id, request);
             if (result is null)
             {
                 return NotFound("Sorry, but this user doesn't exist.");
@@ -63,7 +64,7 @@ namespace Practise102.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<UserEntity>>> DeleteUser(int id)
         {
-            var result = _userService.DeleteUser(id);
+            var result = await _userService.DeleteUser(id);
             if (result is null)
             {
                 return NotFound("Sorry, but this user doesn't exist.");
