@@ -30,5 +30,12 @@ namespace Practise102.Api.Controllers
             }
             return Ok(singleUser);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUser([FromBody]User user)
+        {
+            users.Add(user);
+            return Ok(users);
+        }
     }
 }
