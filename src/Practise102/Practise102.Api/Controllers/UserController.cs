@@ -14,6 +14,7 @@ namespace Practise102.Api.Controllers
             new User{Id = 1, Name = "Merve", LastName = "Azgın", Place = "Ankara"},
             new User{Id = 2, Name = "Yiğit", LastName = "Adaş", Place = "Ankara"}
         };
+
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -24,10 +25,12 @@ namespace Practise102.Api.Controllers
         public async Task<IActionResult> GetSingleUser(int id)
         {
             var singleUser = users.Find(x => x.Id == id);
+
             if(singleUser is null)
             {
                 return NotFound("Sorry, but this user doesn't exist.");
             }
+
             return Ok(singleUser);
         }
 
@@ -35,6 +38,7 @@ namespace Practise102.Api.Controllers
         public async Task<IActionResult> AddUser([FromBody]User user)
         {
             users.Add(user);
+
             return Ok(users);
         }
 
@@ -50,6 +54,20 @@ namespace Practise102.Api.Controllers
             user.Name = request.Name;
             user.LastName = request.LastName;
             user.Place = request.Place;
+
+            return Ok(users);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var user = users.Find(x => x.Id == id);
+            if (user is null)
+            {
+                return NotFound("Sorry, but this user doesn't exist.");
+            }
+
+            users.Remove(user);
 
             return Ok(users);
         }
